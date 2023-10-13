@@ -1,2 +1,2 @@
 # thesis-jenkins
-Jenkinsfile
+Jenkins Shared Library
