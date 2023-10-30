@@ -16,7 +16,7 @@ node {
         
     }
     stage('Terraform Plan'){
-        withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token')]) {
+        withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'TF_VAR_backend_username', passwordVariable: 'TF_VAR_backend_password']]) {
             docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
                 
                 sh'terraform plan'
@@ -25,7 +25,7 @@ node {
         
     }
     stage('Terraform Apply Plan'){
-        withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token')]) {
+        withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'TF_VAR_backend_username', passwordVariable: 'TF_VAR_backend_password'][$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'TF_VAR_backend_username', passwordVariable: 'TF_VAR_backend_password']]) {
             docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
                 
                 sh'terraform apply -auto-approve'
