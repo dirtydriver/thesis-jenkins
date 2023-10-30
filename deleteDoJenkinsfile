@@ -14,7 +14,7 @@ node {
  {
             docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
                 sh 'env'
-                sh'terraform init -auto-approve'
+                sh'terraform init'
                 
         }        }
         
@@ -53,22 +53,5 @@ node {
                 sh "curl --request DELETE -u $USERNAME:$PASSWORD https://nexus.thepetruska.com/repository/raw_files/kube_config/config "
                 
         }
-    stage('Commit Changes'){
-     
-      def commit_message= "Removed DigitalOcean Kubernetes Environment"
-      print commit_message
-      docker.image('dirtydriver/gitclient:0.1').inside("""--entrypoint=''""") {
-                
-        sh """ git add . && git commit -m \" $commit_message \" && git push --set-upstream origin feature/manage_kubernetes """ 
-                
-        }
-      
-     
-   }                 
-        
-        
-        
-        
-    
     }
 }

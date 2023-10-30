@@ -10,7 +10,7 @@ node {
         ) {
             docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
                 
-                sh'terraform init -auto-approve'
+                sh'terraform init'
                 
         }        }
         
@@ -33,21 +33,6 @@ node {
         }        }
         
     }
-    stage('Commit Changes'){
-      try{
-      def commit_message= "Build"+BUILD_NUMBER
-      print commit_message
-      docker.image('dirtydriver/gitclient:0.1').inside("""--entrypoint=''""") {
-                
-        sh """ git add . && git commit -m $commit_message && git push --set-upstream origin feature/manage_kubernetes """ 
-                
-        }
-      
-    }
-    catch(all){
-        print('There is no changes.')
-    }
-   }
     stage('Create & Upload kube config'){
         
          withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token')]) {
