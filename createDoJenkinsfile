@@ -1,6 +1,9 @@
 node {
     env.TF_LOG=1
-    
+    stage('Clean WS'){
+        
+        cleanWs()
+    }
     stage('Pull Source Code') { // for display purposes
         // Get some code from a GitHub repository
        git branch: 'feature/manage_kubernetes', credentialsId: 'github-cred', url: 'git@github.com:dirtydriver/thesis-terraform.git'
