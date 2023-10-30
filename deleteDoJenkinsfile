@@ -45,7 +45,7 @@ node {
         }        }
     }
     
-    stage('Create & Upload kube config'){
+    stage('Delete kube config'){
         
          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus',
   usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
