@@ -10,11 +10,11 @@ node {
        
     }
 
-    stage('Terraform Init'){
-                withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME ', passwordVariable: 'ARTIFACTORY_PASSWORD']])
- {
+      stage('Terraform Init'){
+        withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]
+        ) {
             docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
-                sh 'env'
+                
                 sh'terraform init'
                 
         }        }
@@ -41,7 +41,7 @@ node {
         withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
             docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
                 
-                sh'terraform apply -auto-approve terraform.tfplan '
+                sh'terraform apply -auto-approve terraform.tfplan'
                 
         }        }
     }
