@@ -9,8 +9,9 @@ node {
        git branch: 'feature/manage_kubernetes', credentialsId: 'github-cred', url: 'git@github.com:dirtydriver/thesis-terraform.git'
        
     }
+
     stage('Terraform Init'){
-                withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME ', passwordVariable: 'ARTIFACTORY_PASSWORD ']])
+                withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME ', passwordVariable: 'ARTIFACTORY_PASSWORD']])
  {
             docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
                 sh'terraform init'
