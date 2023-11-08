@@ -48,7 +48,7 @@ node {
          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus',
   usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
       
-      sh """curl -u $USERNAME:$PASSWORD --upload-file config https://nexus.thepetruska.com/repository/raw_files/kube_config/config"""
+      sh """curl -u $USERNAME:$PASSWORD --upload-file config https://nexus.petruska.dev/repository/raw_files/kube_config/config"""
       sh "rm -f config"
       
   }
