@@ -13,7 +13,7 @@ node {
       stage('Terraform Init'){
         withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]
         ) {
-            docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
+            docker.image('hashicorp/terraform:1.2.9').inside("""--entrypoint=''""") {
                 
                 sh'terraform init'
                 
@@ -22,7 +22,7 @@ node {
     }
     stage('Terraform Refresh state'){
         withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
-            docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
+            docker.image('hashicorp/terraform:1.2.9').inside("""--entrypoint=''""") {
                 
                 sh'terraform refresh'
                 
@@ -31,7 +31,7 @@ node {
     }
     stage('Terraform Destroy Plan'){
        withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
-            docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
+            docker.image('hashicorp/terraform:1.2.9').inside("""--entrypoint=''""") {
                 
                 sh'terraform plan -destroy -out=terraform.tfplan'
                 
@@ -39,7 +39,7 @@ node {
     }
     stage('Terraform Apply Plan'){
         withCredentials([string(credentialsId: 'digitalocean-token', variable: 'TF_VAR_do_token'),[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
-            docker.image('hashicorp/terraform:light').inside("""--entrypoint=''""") {
+            docker.image('hashicorp/terraform:1.2.9').inside("""--entrypoint=''""") {
                 
                 sh'terraform apply -auto-approve terraform.tfplan'
                 
@@ -51,7 +51,7 @@ node {
          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'nexus',
   usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
 
-                sh "curl --request DELETE -u $USERNAME:$PASSWORD https://nexus.thepetruska.com/repository/raw_files/kube_config/config "
+                sh "curl --request DELETE -u $USERNAME:$PASSWORD https://nexus.petruska.dev/repository/raw_files/kube_config/config "
                 
         }
     }
